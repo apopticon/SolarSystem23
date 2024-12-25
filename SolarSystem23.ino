@@ -2370,7 +2370,7 @@ int InitNewBall(bool curStateChanged, byte playerNum, int ballNum) {
   // then we have to do everything to set up the new ball
   if (curStateChanged) {
     RPU_TurnOffAllLamps();
-    SetGeneralIllumination(false);
+   // SetGeneralIllumination(false);
     BallFirstSwitchHitTime = 0;
     BallSaveEndTime = 0;
 
@@ -2767,7 +2767,7 @@ int ManageGameMode() {
         GameModeEndTime = 0; 
         LastGalaxyLightShownTime = 0;
         GalaxyLampCount = 0;
-        SetGeneralIllumination(false);
+        //SetGeneralIllumination(false);
 
         // If a side quest was qualified but not started, end it now
         SideQuestQualifiedEndTime = 0;
@@ -3530,8 +3530,10 @@ void HandleGalaxyTurnaround() {
     GalaxyTurnaroundEjectTime = CurrentTime + 600;
     GalaxyBounceAnimationStart = CurrentTime;
     PlaySoundEffect(SOUND_EFFECT_GALAXY_BOUNCE, ConvertVolumeSettingToGain(SoundEffectsVolume));
-    RPU_PushToTimedSolenoidStack(SOL_GALAXY_KICKER, 5, CurrentTime+600);    
-    if (GalaxyKickerBallSave) SetBallSave(600 + (unsigned long)GalaxyKickerBallSave * 1000);
+    //RPU_PushToTimedSolenoidStack(SOL_GALAXY_KICKER, 5, CurrentTime+600);    
+    RPU_PushToTimedSolenoidStack(SOL_GALAXY_KICKER, 5, CurrentTime+600+TURNAROUND_BOUNCE_TIME);    // add bounce time for ball to settle on switch
+    //if (GalaxyKickerBallSave) SetBallSave(600 + (unsigned long)GalaxyKickerBallSave * 1000);
+    if (GalaxyKickerBallSave) SetBallSave(600+TURNAROUND_BOUNCE_TIME + (unsigned long)GalaxyKickerBallSave * 1000);  // add back bounce time lost while waiting for kicker
   }
 }
 
@@ -3896,8 +3898,10 @@ int RunGamePlayMode(int curState, boolean curStateChanged) {
             StartScoreAnimation(skillShotScore);
             PlaySoundEffect(SOUND_EFFECT_SKILL_SHOT, ConvertVolumeSettingToGain(SoundEffectsVolume));
             QueueNotification(SOUND_EFFECT_VP_SKILL_SHOT_1+CurrentTime%4, 0);
-            RPU_PushToTimedSolenoidStack(SOL_GALAXY_KICKER, 5, CurrentTime+2000);
-            if (GalaxyKickerBallSave) SetBallSave(2000 + (unsigned long)GalaxyKickerBallSave * 1000);
+            //RPU_PushToTimedSolenoidStack(SOL_GALAXY_KICKER, 5, CurrentTime+2000);
+            RPU_PushToTimedSolenoidStack(SOL_GALAXY_KICKER, 5, CurrentTime+2000+TURNAROUND_BOUNCE_TIME);  // add bounce time for ball to settle on switch
+            //if (GalaxyKickerBallSave) SetBallSave(2000 + (unsigned long)GalaxyKickerBallSave * 1000);
+            if (GalaxyKickerBallSave) SetBallSave(2000 + TURNAROUND_BOUNCE_TIME + (unsigned long)GalaxyKickerBallSave * 1000); // add back bounce time lost while waiting for kicker
           } else if ((GameMode & GAME_BASE_MODE)==GAME_MODE_WIZARD_QUALIFIED) {
             SetGameMode(GAME_MODE_WIZARD_START);
             StartScoreAnimation((unsigned long)50000, false);
@@ -3906,8 +3910,10 @@ int RunGamePlayMode(int curState, boolean curStateChanged) {
             StartScoreAnimation((unsigned long)WizardJackpotValue, false);
             WizardJackpotValue = 0;
             WizardJackpotLastChanged = 0;
-            RPU_PushToTimedSolenoidStack(SOL_GALAXY_KICKER, 5, CurrentTime+1000);
-            if (GalaxyKickerBallSave) SetBallSave(1000 + (unsigned long)GalaxyKickerBallSave * 1000);
+            //RPU_PushToTimedSolenoidStack(SOL_GALAXY_KICKER, 5, CurrentTime+1000);
+            RPU_PushToTimedSolenoidStack(SOL_GALAXY_KICKER, 5, CurrentTime+1000+TURNAROUND_BOUNCE_TIME);  // add bounce time for ball to settle on switch
+            //if (GalaxyKickerBallSave) SetBallSave(1000 + (unsigned long)GalaxyKickerBallSave * 1000);
+            if (GalaxyKickerBallSave) SetBallSave(1000+TURNAROUND_BOUNCE_TIME + (unsigned long)GalaxyKickerBallSave * 1000); // add back bounce time lost while waiting for kicker
           } else {
             HandleGalaxyTurnaround();
             CheckForMissionEnd(MISSION_FINISH_SHOT_GALAXY_TURNAROUND);

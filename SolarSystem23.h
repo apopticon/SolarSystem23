@@ -104,6 +104,11 @@
 
 #define SOLCONT_GENERAL_ILLUMINATION  0x10
 
+/* TURNAROUND_BOUNCE_TIME is added to RPU_PushToTimedSolenoidStack call for SW_GLALAXY_TURNAROUND 
+ * to solve the problem of the ball bouncing off the switch, then getting stuck there. 
+ * One second (1000 milliseconds) seems to be enough.
+*/
+#define TURNAROUND_BOUNCE_TIME 1000  
 //#define SOL_NONE          15
 
 

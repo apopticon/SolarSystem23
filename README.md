@@ -1,3 +1,8 @@
+This fork of the excellent SolarSystem23 has two changes.
+First is the addition of some delay in the Galaxy TurnAround kicker. If the ball bounces off the switch, it can wind up stuck in the turnaround. Adding a little delay lets the ball settle and (so far) seems to have solved the problem.
+Second is the new game code uses the G.I. control to turn off the playfield lights at the beginning of a new ball, and the playfield is dark until the ball passes thru the top lanes. I have disabled that. You can turn it back on by uncommenting those two lines in the code. Search for SetGeneralIllumination(false) and remove the comment. One is in InitNewBall and the other is in ManageGameMode.
+
+
 # SolarSystem23
 All new code for a classic pinball machine. With an Arduino connected to the MPU, this code will run on a Galaxy pinball machine (1980).  
   
